@@ -1,16 +1,14 @@
 package com.luxoft.springdb.lab3.service;
 
-import org.springframework.transaction.support.TransactionTemplate;
-
 import com.luxoft.springdb.lab3.dao.CountryDao;
 import com.luxoft.springdb.lab3.dao.CountryNotFoundException;
 import com.luxoft.springdb.lab3.model.Country;
-
-import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -29,8 +27,6 @@ public class ProgrammaticTransactionCountryServiceImpl implements ProgrammaticTr
                 try {
                     return dao.getCountryByName(name);
                 } catch (CountryNotFoundException e) {
-
-
                 }
                 return null;
             }
@@ -46,7 +42,6 @@ public class ProgrammaticTransactionCountryServiceImpl implements ProgrammaticTr
     }
 
     private Country getCountryByCodeNameInTransaction(final String codeName, final Propagation propagation) {
-
         return (Country) transactionTemplate.execute(new TransactionCallback<Object>() {
             public Object doInTransaction(TransactionStatus status) {
                 TransactionLog.append("Method inside transaction, propagation = " + propagation.toString() + "\n");
